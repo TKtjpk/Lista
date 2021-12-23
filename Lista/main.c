@@ -10,37 +10,54 @@
 #include <stdlib.h>
 #include "functions.h"
 
-enum Menu {a, d, p, x};
+char menu1[] = "(a) - dodaj element  |  (d) - kasuj element  |  (p) - wyswietl liste  |  (x) - zamknij program: \n";
+char menu2[] = "(f) - poczatek listy  |  (e) - koniec listy  |  (a) - sortuj alfabetycznie  |  (n) - sortuj wg ID\n";
 
 int main(int argc, const char * argv[]) {
-    costam();
-    char ***lista = NULL, komenda;
-    lista = (char***)malloc((10 * 3 * 20) * sizeof(char));
-    lista = dodaj(lista);
-    int i = 1;
-    do {
-//        for (int z = 0; i < 3; i++) {
-//            printf("%s", lista[0][z]);
-//        }
-        printf("(a) - dodaj element  |  ");
-        printf("(d) - kasuj element  |  ");
-        printf("(p) - zmien element  |  ");
-        printf("(x) - zamknij program\n");
-        komenda = getc(stdin);
-        //scanf("%c", &komenda);
-        if (komenda == 'a') {
-            printf("(f) - poczatek listy  |  ");
-            printf("(e) - koniec listy  |  ");
-            printf("(a) - sortuj alfabetycznie  |  ");
-            printf("(n) - sortuj wg ID\n");
-        } else if (komenda == 'd') {
-            printf("d");
-        } else if (komenda == 'p') {
-            printf("p");
-        } else if (komenda == 'x') {
-            printf("Koniec programu\n");
+        char ***lista = NULL;
+        char komenda = '\0';
+        
+        while(1) {
+                
+                printf("%s", menu1);
+                scanf(" %c", &komenda);
+                
+                switch (komenda) {
+                        case 'a':
+                                printf("%s", menu2);
+                                scanf(" %c", &komenda);
+                                switch (komenda) {
+                                        case 'f':
+                                                lista = dodaj_na_poczatku(lista);
+                                                break;
+                                        case 'e':
+                                                lista = dodaj_na_koncu(lista);
+                                                break;
+                                        case 'a':
+                                                sortuj(lista, 2);
+                                                break;
+                                        case 'n':
+                                                sortuj(lista, 0);
+                                                break;
+                                        default:
+                                                break;
+                                }
+                                break;
+                        case 'd':
+                                usun(lista);
+                                break;
+                        case 'p':
+                                drukuj(lista);
+                                break;
+                        case 'x':
+                                free(lista);
+                                printf("Koniec programu\n");
+                                return 0;
+                        default:
+                                printf("OK");
+                                break;
+                }
+                //drukuj(lista);
         }
-    } while (komenda != 'x');
-    free(lista);
-    return 0;
+        return 0;
 }
