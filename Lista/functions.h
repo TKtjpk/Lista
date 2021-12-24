@@ -18,7 +18,7 @@ void drukuj(char ***students);
 
 void usun_element(char ***students, int index);
 
-char ***dodaj_na_poczatku(char ***students);
+void dodaj_na_poczatku(char ***students);
 
 void dodaj_do_pustej_listy(char ***students);
 

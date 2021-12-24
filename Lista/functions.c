@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-
 int iloscStudentow = 0;
 
+//MARK: Tworzenie tabeli
 char ***tabela(char ***students)
 {
         students = malloc(sizeof(char**) * 1);
@@ -26,6 +26,7 @@ char ***tabela(char ***students)
         return students;
 }
 
+//MARK: Usuwanie z tabeli
 void usun(char ***students)
 {
         if (iloscStudentow > 0)
@@ -47,12 +48,9 @@ void usun(char ***students)
                         printf("\n   ---   Nie ma takiego indexu   ---\n");
                 }
         }
-        else
-        {
-                students = NULL;
-        }
 }
 
+//MARK: Wyświetlanie tabeli
 void drukuj(char ***students)
 {
         if (iloscStudentow > 0)
@@ -62,8 +60,8 @@ void drukuj(char ***students)
                 for (int x = 0; x < iloscStudentow; x++)
                 {
                         
-                        printf("%s  %s  %s", students[x][0] , students[x][2], students[x][1]);
-                        printf("\n      -       -       -       -       -\n");
+                        printf("%3s     %s     %s", students[x][0] , students[x][2], students[x][1]);
+                        printf("\n................................................................\n");
                 }
         }
         else
@@ -72,53 +70,55 @@ void drukuj(char ***students)
         }
 }
 
+//MARK: Usuwanie elemntu(kopiowanie i realokacja tabeli)
 void usun_element(char ***students, int index)
 {
-        for (int i = index; i < iloscStudentow + 1; i++)
+        for (int i = index; i < iloscStudentow; i++)
         {
                 students[i] = students[i+1];
         }
         
         iloscStudentow--;
         
-        char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
+        char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
         
         students = temp;
 }
 
-char ***dodaj_na_poczatku(char ***students)
+//MARK: Dodaj na początku
+void dodaj_na_poczatku(char ***students)
 {
-        char ***temp;
-        
-        iloscStudentow++;
-        
-        temp = tymczasowa_tabela(students);
-        
-        for (int x = iloscStudentow - 1; x > 0; x--)
-        {
-                for (int i = 0; i < 3; i ++)
+                char ***temp;
+                
+                iloscStudentow++;
+                
+                temp = tymczasowa_tabela(students);
+                
+                for (int x = iloscStudentow - 1; x > 0; x--)
                 {
-                        strcpy(temp[x][i],temp[x-1][i]);
+                        for (int i = 0; i < 3; i ++)
+                        {
+                                strcpy(temp[x][i],temp[x-1][i]);
+                        }
                 }
-        }
-
-        students = temp;
-        
-        dodajStudenta(students, 0);
-
-        return students;
+                
+                students = temp;
+                
+                dodajStudenta(students, 0);
 }
 
+//MARK: Dodaj na końcu
 void dodaj_na_koncu(char ***students)
 {
-        iloscStudentow++;
-        
-        char ***temp = tymczasowa_tabela(students);
-        
-        students = temp;
-        dodajStudenta(students, iloscStudentow-1);
+                iloscStudentow++;
+                
+                char ***temp = tymczasowa_tabela(students);
+                
+                students = temp;
+                dodajStudenta(students, iloscStudentow-1);
 }
 
+//MARK: Dodawanie do tabeli pustej
 void dodaj_do_pustej_listy(char ***students)
 {
         dodajStudenta(students, 0);
@@ -126,6 +126,7 @@ void dodaj_do_pustej_listy(char ***students)
         iloscStudentow++;
 }
 
+//MARK: Dodawanie studenta (interakcja z uzytkownikiem)
 void dodajStudenta(char ***students, int pozycja)
 {
         char id[20], imie[20], nazwisko[20];
@@ -145,6 +146,7 @@ void dodajStudenta(char ***students, int pozycja)
         }
 }
 
+//MARK: Realokacja tabeli i alokacja pamieci dla nowo utworzonego sektora
 char ***tymczasowa_tabela(char ***students)
 {
         char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
@@ -159,6 +161,7 @@ char ***tymczasowa_tabela(char ***students)
         return temp;
 }
 
+//MARK: Sortowanie
 void sortuj(char ***students, int metoda)
 {
         int znacznik;
@@ -186,6 +189,7 @@ void sortuj(char ***students, int metoda)
         }
 }
 
+//MARK: Zwalnianie tabeli
 void zwolnij(char ***students) {
         for (int z = 0; z < iloscStudentow; z++)
         {

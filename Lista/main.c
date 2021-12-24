@@ -41,7 +41,7 @@ int main(int argc, const char * argv[])
                                                 }
                                                 else
                                                 {
-                                                        lista = dodaj_na_poczatku(lista);
+                                                        dodaj_na_poczatku(lista);
                                                 }
                                                 break;
                                         case 'e':
