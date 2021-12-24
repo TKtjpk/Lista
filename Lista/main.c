@@ -36,16 +36,16 @@ int main(int argc, const char * argv[])
                                         case 'f':
                                                 if (lista == NULL)
                                                 {
-                                                        lista = tabela(lista);
-                                                        dodaj_do_pustej_listy(lista);
+                                                        //lista = tabela(lista);
+                                                        lista = dodaj_do_pustej_listy(lista);
                                                 }
                                                 else
                                                 {
-                                                        dodaj_na_poczatku(lista);
+                                                        lista = dodaj_na_poczatku(lista);
                                                 }
                                                 break;
                                         case 'e':
-                                                dodaj_na_koncu(lista);
+                                                lista = dodaj_na_koncu(lista);
                                                 break;
                                         case 'a':
                                                 sortuj(lista, 2);
@@ -58,7 +58,7 @@ int main(int argc, const char * argv[])
                                 }
                                 break;
                         case 'd':
-                                usun(lista);
+                                lista = usun(lista);
                                 break;
                         case 'p':
                                 drukuj(lista);

@@ -26,6 +26,7 @@
 /* Begin PBXFileReference section */
 		951F756F276F4B09007B9300 /* Lista */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Lista; sourceTree = BUILT_PRODUCTS_DIR; };
 		951F7572276F4B09007B9300 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		95B4045F2775CDBF001B4E1E /* Lista.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lista.profdata; sourceTree = "<group>"; };
 		95E89458276F5B8E00662045 /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
 		95E89459276F5B8E00662045 /* functions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = functions.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +47,7 @@
 			children = (
 				951F7571276F4B09007B9300 /* Lista */,
 				951F7570276F4B09007B9300 /* Products */,
+				95B4045E2775CDBF001B4E1E /* OptimizationProfiles */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +67,14 @@
 				95E89459276F5B8E00662045 /* functions.c */,
 			);
 			path = Lista;
+			sourceTree = "<group>";
+		};
+		95B4045E2775CDBF001B4E1E /* OptimizationProfiles */ = {
+			isa = PBXGroup;
+			children = (
+				95B4045F2775CDBF001B4E1E /* Lista.profdata */,
+			);
+			path = OptimizationProfiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +256,7 @@
 		951F7577276F4B09007B9300 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKCT26533X;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -256,6 +267,7 @@
 		951F7578276F4B09007B9300 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKCT26533X;
 				ENABLE_HARDENED_RUNTIME = YES;

@@ -12,21 +12,21 @@
 
 char ***tabela(char ***students);
 
-void usun(char ***students);
+char ***usun(char ***students);
 
 void drukuj(char ***students);
 
-void usun_element(char ***students, int index);
+char ***usun_element(char ***students, int index);
 
-void dodaj_na_poczatku(char ***students);
+char ***dodaj_na_poczatku(char ***students);
 
-void dodaj_do_pustej_listy(char ***students);
+char ***dodaj_do_pustej_listy(char ***students);
 
 void dodajStudenta(char ***students, int pozycja);
 
 char ***tymczasowa_tabela(char ***students);
 
-void dodaj_na_koncu(char ***students);
+char ***dodaj_na_koncu(char ***students);
 
 void sortuj(char ***students, int metoda);
 

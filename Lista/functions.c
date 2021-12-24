@@ -12,7 +12,7 @@
 
 int iloscStudentow = 0;
 
-//MARK: Tworzenie tabeli
+//MARK: Tworzenie tabeli (jeśli wcześniej nie było)
 char ***tabela(char ***students)
 {
         students = malloc(sizeof(char**) * 1);
@@ -27,7 +27,7 @@ char ***tabela(char ***students)
 }
 
 //MARK: Usuwanie z tabeli
-void usun(char ***students)
+char ***usun(char ***students)
 {
         if (iloscStudentow > 0)
         {
@@ -40,7 +40,13 @@ void usun(char ***students)
                         if (atoi(students[x][0]) == index)
                         {
                                 pozycja = x;
-                                usun_element(students, pozycja);
+                                
+                                students = usun_element(students, pozycja);
+                                
+                                char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
+                                
+                                students = temp;
+                                
                                 break;
                         }
                 }
@@ -48,6 +54,7 @@ void usun(char ***students)
                         printf("\n   ---   Nie ma takiego indexu   ---\n");
                 }
         }
+        return students;
 }
 
 //MARK: Wyświetlanie tabeli
@@ -71,22 +78,29 @@ void drukuj(char ***students)
 }
 
 //MARK: Usuwanie elemntu(kopiowanie i realokacja tabeli)
-void usun_element(char ***students, int index)
+char ***usun_element(char ***students, int index)
 {
-        for (int i = index; i < iloscStudentow; i++)
+        for (int i = index; i < iloscStudentow - 1; i++)
         {
-                students[i] = students[i+1];
+                for (int x = 0; x < 3; x++) {
+                        strcpy(students[i][x], students[i+1][x]);
+                }
         }
-        
+
         iloscStudentow--;
         
-        char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
+        if (iloscStudentow > 0) {
+                for (int x = 0; x < 3; x++) {
+                        free(students[iloscStudentow][x]);
+                }
+                free(students[iloscStudentow]);
+        }
         
-        students = temp;
+        return students;
 }
 
 //MARK: Dodaj na początku
-void dodaj_na_poczatku(char ***students)
+char ***dodaj_na_poczatku(char ***students)
 {
                 char ***temp;
                 
@@ -105,25 +119,34 @@ void dodaj_na_poczatku(char ***students)
                 students = temp;
                 
                 dodajStudenta(students, 0);
+        
+        return students;
 }
 
 //MARK: Dodaj na końcu
-void dodaj_na_koncu(char ***students)
+char ***dodaj_na_koncu(char ***students)
 {
                 iloscStudentow++;
                 
                 char ***temp = tymczasowa_tabela(students);
                 
                 students = temp;
+        
                 dodajStudenta(students, iloscStudentow-1);
+        
+        return students;
 }
 
 //MARK: Dodawanie do tabeli pustej
-void dodaj_do_pustej_listy(char ***students)
+char ***dodaj_do_pustej_listy(char ***students)
 {
+        students = tabela(students);
+        
         dodajStudenta(students, 0);
         
         iloscStudentow++;
+        
+        return students;
 }
 
 //MARK: Dodawanie studenta (interakcja z uzytkownikiem)
@@ -151,13 +174,13 @@ char ***tymczasowa_tabela(char ***students)
 {
         char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
         
-        temp[iloscStudentow-1] = malloc(sizeof(*temp) * 3);
+        temp[iloscStudentow-1] = malloc(sizeof(**temp) * 3);
         
         for (int i = 0; i < 3; i++)
         {
                 temp[iloscStudentow-1][i] = malloc(sizeof(char) * 21);
         }
-        
+
         return temp;
 }
 
