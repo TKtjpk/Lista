@@ -10,14 +10,18 @@
 #include <stdlib.h>
 #include "functions.h"
 
-char menu1[] = "(a) - dodaj element  |  (d) - kasuj element  |  (p) - wyswietl liste  |  (x) - zamknij program: \n";
+char ***tabela(char ***students);
+
+char menu1[] = "(a) - dodaj element  |  (d) - kasuj element  |  (p) - wyswietl liste  |  (x) - zamknij program\n";
 char menu2[] = "(f) - poczatek listy  |  (e) - koniec listy  |  (a) - sortuj alfabetycznie  |  (n) - sortuj wg ID\n";
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[])
+{
         char ***lista = NULL;
         char komenda = '\0';
         
-        while(1) {
+        while(1)
+        {
                 
                 printf("%s", menu1);
                 scanf(" %c", &komenda);
@@ -26,12 +30,22 @@ int main(int argc, const char * argv[]) {
                         case 'a':
                                 printf("%s", menu2);
                                 scanf(" %c", &komenda);
-                                switch (komenda) {
+                                getchar();
+                                switch (komenda)
+                                {
                                         case 'f':
-                                                lista = dodaj_na_poczatku(lista);
+                                                if (lista == NULL)
+                                                {
+                                                        lista = tabela(lista);
+                                                        dodaj_do_pustej_listy(lista);
+                                                }
+                                                else
+                                                {
+                                                        lista = dodaj_na_poczatku(lista);
+                                                }
                                                 break;
                                         case 'e':
-                                                lista = dodaj_na_koncu(lista);
+                                                dodaj_na_koncu(lista);
                                                 break;
                                         case 'a':
                                                 sortuj(lista, 2);
@@ -50,14 +64,13 @@ int main(int argc, const char * argv[]) {
                                 drukuj(lista);
                                 break;
                         case 'x':
-                                free(lista);
+                                zwolnij(lista);
                                 printf("Koniec programu\n");
                                 return 0;
                         default:
                                 printf("OK");
                                 break;
                 }
-                //drukuj(lista);
         }
         return 0;
 }

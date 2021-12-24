@@ -6,20 +6,38 @@
 //
 
 #include "functions.h"
-#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
+
 
 int iloscStudentow = 0;
 
-void usun(char ***students) {
-        if (iloscStudentow > 0) {
+char ***tabela(char ***students)
+{
+        students = malloc(sizeof(char**) * 1);
+        
+        students[0] = malloc(sizeof(char*) * 3);
+        
+        for (int y = 0; y < 3; y++)
+        {
+                students[0][y] = malloc(sizeof(char) * 21);
+        }
+        return students;
+}
+
+void usun(char ***students)
+{
+        if (iloscStudentow > 0)
+        {
                 int index, pozycja = -1;
                 drukuj(students);
                 printf("Podaj index do usuniecia: ");
                 scanf(" %d", &index);
-                for (int x = 0; x < iloscStudentow; x++) {
-                        if (atoi(students[x][0]) == index) {
+                for (int x = 0; x < iloscStudentow; x++)
+                {
+                        if (atoi(students[x][0]) == index)
+                        {
                                 pozycja = x;
                                 usun_element(students, pozycja);
                                 break;
@@ -28,92 +46,89 @@ void usun(char ***students) {
                 if (pozycja == -1) {
                         printf("\n   ---   Nie ma takiego indexu   ---\n");
                 }
-        } else {
+        }
+        else
+        {
                 students = NULL;
         }
 }
 
-void drukuj(char ***students) {
-        if (iloscStudentow > 0) {
-                printf("\n");
-                printf("index                  IMIE                    NAZWISKO\n");
-                for (int x = 0; x < iloscStudentow; x++) {
+void drukuj(char ***students)
+{
+        if (iloscStudentow > 0)
+        {
+                printf("\n index / NAZWISKO / IMIE\n");
+                
+                for (int x = 0; x < iloscStudentow; x++)
+                {
                         
-                        for (int y = 0; y < 3; y++) {
-                                y == 0 ? printf("%6s - ", students[x][y]) : printf("  |   %20s", students[x][y]);
-                        }
-                        printf("\n-------------------------------------------------------------");
-                        printf("\n");
+                        printf("%s  %s  %s", students[x][0] , students[x][2], students[x][1]);
+                        printf("\n      -       -       -       -       -\n");
                 }
-        } else {
+        }
+        else
+        {
                 printf("\n   ---   Tablica jest pusta   ---\n\n");
         }
 }
 
-void usun_element(char ***students, int index) {
-        for (int i = index; i < iloscStudentow + 1; i++) {
+void usun_element(char ***students, int index)
+{
+        for (int i = index; i < iloscStudentow + 1; i++)
+        {
                 students[i] = students[i+1];
         }
+        
         iloscStudentow--;
-        char ***temp = tymczasowa_tabela(students);
+        
+        char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
+        
         students = temp;
 }
 
-char ***dodaj_na_poczatku(char ***students) {
-        switch (iloscStudentow) {
-                case 0: iloscStudentow++;
-                        students = dodaj_do_pustej_listy(students);
-                        break;
-                default:
-                        iloscStudentow++;
-                        char ***temp = tymczasowa_tabela(students);
-                        
-                        for (int x = iloscStudentow - 1; x > 0; x--) {
-                                for (int i = 0; i < 3; i ++) {
-                                        temp[x][i] = students[x-1][i];
-                                }
-                        }
-                        students = temp;
-                        
-                        dodajStudenta(students[0][0], students[0][1], students[0][2]);
-        }
-        return students;
-}
-
-char ***dodaj_na_koncu(char ***students) {
-        switch (iloscStudentow) {
-                case 0: iloscStudentow++;
-                        students = dodaj_do_pustej_listy(students);
-                        break;
-                default:
-                        iloscStudentow++;
-                        char ***temp = tymczasowa_tabela(students);
-                        for (int x = 0; x < iloscStudentow -1; x++) {
-                                for (int i = 0; i < 3; i ++) {
-                                        temp[x][i] = students[x][i];
-                                }
-                        }
-                        students = temp;
-                        dodajStudenta(students[iloscStudentow-1][0], students[iloscStudentow-1][1], students[iloscStudentow-1][2]);
-                        break;
-        }
-        return students;
-}
-
-char ***dodaj_do_pustej_listy(char ***students) {
+char ***dodaj_na_poczatku(char ***students)
+{
+        char ***temp;
         
-        char imie[20], nazwisko[20], id[20];
-        dodajStudenta(id, imie, nazwisko);
-        students = tymczasowa_tabela(students);
+        iloscStudentow++;
         
-        for (int y = 0; y < 3; y++) {
-                
-                strcpy(students[0][y], (y !=0 ? (y == 1 ? imie : nazwisko): id));
+        temp = tymczasowa_tabela(students);
+        
+        for (int x = iloscStudentow - 1; x > 0; x--)
+        {
+                for (int i = 0; i < 3; i ++)
+                {
+                        strcpy(temp[x][i],temp[x-1][i]);
+                }
         }
+
+        students = temp;
+        
+        dodajStudenta(students, 0);
+
         return students;
 }
 
-void dodajStudenta(char *id, char *imie, char *nazwisko) {
+void dodaj_na_koncu(char ***students)
+{
+        iloscStudentow++;
+        
+        char ***temp = tymczasowa_tabela(students);
+        
+        students = temp;
+        dodajStudenta(students, iloscStudentow-1);
+}
+
+void dodaj_do_pustej_listy(char ***students)
+{
+        dodajStudenta(students, 0);
+        
+        iloscStudentow++;
+}
+
+void dodajStudenta(char ***students, int pozycja)
+{
+        char id[20], imie[20], nazwisko[20];
         
         printf("Podaj id: ");
         scanf(" %s", id);
@@ -123,32 +138,43 @@ void dodajStudenta(char *id, char *imie, char *nazwisko) {
         
         printf("Podaj nazwisko: ");
         scanf(" %s", nazwisko);
+        
+        for (int y = 0; y < 3; y++)
+        {
+                strcpy(students[pozycja][y], (y !=0 ? (y == 1 ? imie : nazwisko): id));
+        }
 }
 
-char ***tymczasowa_tabela(char ***students) {
-        char ***temp = malloc(sizeof(char**) * iloscStudentow);
-        assert(temp);
-        for (int x= 0; x < iloscStudentow; x++) {
-                temp[x] = malloc(sizeof(char*));
-                //assert(students[0]);
-                
-                for (int y = 0; y < 3; y++) {
-                        
-                        temp[x][y] = malloc(sizeof(char) * 20);
-                        assert(temp[x][y]);
-                }
+char ***tymczasowa_tabela(char ***students)
+{
+        char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
+        
+        temp[iloscStudentow-1] = malloc(sizeof(*temp) * 3);
+        
+        for (int i = 0; i < 3; i++)
+        {
+                temp[iloscStudentow-1][i] = malloc(sizeof(char) * 21);
         }
+        
         return temp;
 }
 
-void sortuj(char ***students, int metoda) {
+void sortuj(char ***students, int metoda)
+{
         int znacznik;
+        
         char *zamiennik;
-        for (int x = 0; x < iloscStudentow - 1; x++) {
+        
+        for (int x = 0; x < iloscStudentow - 1; x++)
+        {
                 znacznik = 0;
-                for (int y = 0; y < iloscStudentow - 1; y++) {
-                        if (metoda == 2 ? (strcmp(students[y+1][metoda],students[y][metoda]) < 0) : (atoi(students[y+1][metoda]) < atoi(students[y][metoda]))) {
-                                for (int i = 0; i < 3; i++) {
+                
+                for (int y = 0; y < iloscStudentow - 1; y++)
+                {
+                        if (metoda == 2 ? (strcmp(students[y+1][metoda],students[y][metoda]) < 0) : (atoi(students[y+1][metoda]) < atoi(students[y][metoda])))
+                        {
+                                for (int i = 0; i < 3; i++)
+                                {
                                         zamiennik = students[y][i];
                                         students[y][i] = students[y + 1][i];
                                         students[y + 1][i] = zamiennik;
@@ -158,4 +184,16 @@ void sortuj(char ***students, int metoda) {
                 }
                 if (!znacznik) break;
         }
+}
+
+void zwolnij(char ***students) {
+        for (int z = 0; z < iloscStudentow; z++)
+        {
+                for (int x = 0; x < 3; x++)
+                {
+                        free(students[z][x]);
+                }
+                free(students[z]);
+        }
+        free(students);
 }
