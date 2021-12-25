@@ -36,7 +36,6 @@ int main(int argc, const char * argv[])
                                         case 'f':
                                                 if (lista == NULL)
                                                 {
-                                                        //lista = tabela(lista);
                                                         lista = dodaj_do_pustej_listy(lista);
                                                 }
                                                 else
@@ -54,6 +53,7 @@ int main(int argc, const char * argv[])
                                                 sortuj(lista, 0);
                                                 break;
                                         default:
+                                                printf("Zdecyduj Się ;) (wciśnij odpowiedni klawisz)\n");
                                                 break;
                                 }
                                 break;
@@ -68,7 +68,7 @@ int main(int argc, const char * argv[])
                                 printf("Koniec programu\n");
                                 return 0;
                         default:
-                                printf("OK");
+                                printf("Zdecyduj Się ;) (wciśnij odpowiedni klawisz)\n");
                                 break;
                 }
         }

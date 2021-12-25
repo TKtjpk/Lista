@@ -77,7 +77,7 @@ void drukuj(char ***students)
         }
 }
 
-//MARK: Usuwanie elemntu(kopiowanie i realokacja tabeli)
+//MARK: Usuwanie elemntu (usuwanie elementu poprzez kopiowanie w to miejsce wyzej polozonych zwalnianie miejsca na ostatnim miejscu w celu eliminacji memory leaks)
 char ***usun_element(char ***students, int index)
 {
         for (int i = index; i < iloscStudentow - 1; i++)
@@ -153,9 +153,13 @@ char ***dodaj_do_pustej_listy(char ***students)
 void dodajStudenta(char ***students, int pozycja)
 {
         char id[20], imie[20], nazwisko[20];
+        int i;
         
-        printf("Podaj id: ");
-        scanf(" %s", id);
+        printf("Podaj id (akceptuje tylko cyfry): ");
+        i = sprawdz_id();
+        
+        sprintf(id, "%d", i);
+        //scanf(" %s", id);
         
         printf("Podaj imie: ");
         scanf(" %s", imie);
@@ -172,7 +176,7 @@ void dodajStudenta(char ***students, int pozycja)
 //MARK: Realokacja tabeli i alokacja pamieci dla nowo utworzonego sektora
 char ***tymczasowa_tabela(char ***students)
 {
-        char ***temp = realloc(students, sizeof(***temp) * iloscStudentow);
+        char ***temp = realloc(students, sizeof(*students) * iloscStudentow);
         
         temp[iloscStudentow-1] = malloc(sizeof(**temp) * 3);
         
@@ -202,7 +206,9 @@ void sortuj(char ***students, int metoda)
                                 for (int i = 0; i < 3; i++)
                                 {
                                         zamiennik = students[y][i];
+                                        
                                         students[y][i] = students[y + 1][i];
+                                        
                                         students[y + 1][i] = zamiennik;
                                 }
                                 znacznik = 1;
@@ -213,7 +219,8 @@ void sortuj(char ***students, int metoda)
 }
 
 //MARK: Zwalnianie tabeli
-void zwolnij(char ***students) {
+void zwolnij(char ***students)
+{
         for (int z = 0; z < iloscStudentow; z++)
         {
                 for (int x = 0; x < 3; x++)
@@ -223,4 +230,35 @@ void zwolnij(char ***students) {
                 free(students[z]);
         }
         free(students);
+}
+
+//MARK: Sprawdzanie czy ID to tylko cyfry
+int sprawdz_id(void)
+{
+        int i = 0, ch, calosc = 0, cyfry = 0;
+        
+        do
+        {
+                ch = getchar();
+                
+                calosc++;
+                
+                if (ch >= 48 && ch <= 57)
+                {
+                        i = i * 10 + (ch - 48);
+                        
+                        cyfry++;
+                }
+        } while (ch != 10 && ch != 13);
+
+        if (calosc == cyfry + 1)
+        {
+                return i;
+        }
+        else
+        {
+                printf("\nPodaj id (akceptuje tylko cyfry): ");
+                
+                return sprawdz_id();
+        }
 }

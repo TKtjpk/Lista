@@ -34,4 +34,6 @@ void zamien(char *pom, char *a, char *b);
 
 void zwolnij(char ***students);
 
+int sprawdz_id(void);
+
 #endif /* functions_h */
