@@ -20,6 +20,7 @@ char ***tabela(char ***students)
         if (students == NULL)
         {
                 perror("malloc failed");
+                
                 exit(-1);
         }
         
@@ -28,6 +29,7 @@ char ***tabela(char ***students)
         if (students[0] == NULL)
         {
                 perror("malloc failed");
+                
                 exit(-1);
         }
         
@@ -38,6 +40,7 @@ char ***tabela(char ***students)
                 if (students[0][y] == NULL)
                 {
                         perror("malloc failed");
+                        
                         exit(-1);
                 }
         }
@@ -50,9 +53,13 @@ char ***usun(char ***students)
         if (iloscStudentow > 0)
         {
                 int index, pozycja = -1;
+                
                 drukuj(students);
+                
                 printf("Podaj index do usuniecia: ");
+                
                 scanf(" %d", &index);
+                
                 for (int x = 0; x < iloscStudentow; x++)
                 {
                         if (atoi(students[x][0]) == index)
@@ -66,6 +73,7 @@ char ***usun(char ***students)
                                 if (temp == NULL)
                                 {
                                         perror("malloc failed");
+                                        
                                         EXIT_FAILURE;
                                 }
                                 
@@ -90,8 +98,8 @@ void drukuj(char ***students)
                 
                 for (int x = 0; x < iloscStudentow; x++)
                 {
-                        
                         printf("%3s     %s     %s", students[x][0] , students[x][2], students[x][1]);
+                        
                         printf("\n................................................................\n");
                 }
         }
@@ -119,7 +127,6 @@ char ***usun_element(char ***students, int index)
                 }
                 free(students[iloscStudentow]);
         }
-        
         return students;
 }
 
@@ -181,7 +188,6 @@ void dodajStudenta(char ***students, int pozycja)
         int i;
         
         printf("Podaj id (akceptuje tylko cyfry): ");
-        
         i = sprawdz_id();
         
         sprintf(id, "%d", i);
@@ -206,6 +212,7 @@ char ***tymczasowa_tabela(char ***students)
         if (temp == NULL)
         {
                 perror("malloc failed");
+                
                 exit(-1);
         }
         
@@ -214,6 +221,7 @@ char ***tymczasowa_tabela(char ***students)
         if (temp[iloscStudentow-1] == NULL)
         {
                 perror("malloc failed");
+                
                 exit(-1);
         }
         
@@ -224,6 +232,7 @@ char ***tymczasowa_tabela(char ***students)
                 if (temp[iloscStudentow-1][i] == NULL)
                 {
                         perror("malloc failed");
+                        
                         exit(-1);
                 }
         }
