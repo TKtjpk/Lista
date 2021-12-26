@@ -17,11 +17,29 @@ char ***tabela(char ***students)
 {
         students = malloc(sizeof(char**) * 1);
         
+        if (students == NULL)
+        {
+                perror("malloc failed");
+                EXIT_FAILURE;
+        }
+        
         students[0] = malloc(sizeof(char*) * 3);
+        
+        if (students[0] == NULL)
+        {
+                perror("malloc failed");
+                EXIT_FAILURE;
+        }
         
         for (int y = 0; y < 3; y++)
         {
                 students[0][y] = malloc(sizeof(char) * 21);
+                
+                if (students[0][y] == NULL)
+                {
+                        perror("malloc failed");
+                        EXIT_FAILURE;
+                }
         }
         return students;
 }
@@ -44,6 +62,12 @@ char ***usun(char ***students)
                                 students = usun_element(students, pozycja);
                                 
                                 char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
+                                
+                                if (temp == NULL)
+                                {
+                                        perror("malloc failed");
+                                        EXIT_FAILURE;
+                                }
                                 
                                 students = temp;
                                 
@@ -153,13 +177,14 @@ char ***dodaj_do_pustej_listy(char ***students)
 void dodajStudenta(char ***students, int pozycja)
 {
         char id[20], imie[20], nazwisko[20];
+        
         int i;
         
         printf("Podaj id (akceptuje tylko cyfry): ");
+        
         i = sprawdz_id();
         
         sprintf(id, "%d", i);
-        //scanf(" %s", id);
         
         printf("Podaj imie: ");
         scanf(" %s", imie);
@@ -178,11 +203,29 @@ char ***tymczasowa_tabela(char ***students)
 {
         char ***temp = realloc(students, sizeof(*students) * iloscStudentow);
         
+        if (temp == NULL)
+        {
+                perror("malloc failed");
+                EXIT_FAILURE;
+        }
+        
         temp[iloscStudentow-1] = malloc(sizeof(**temp) * 3);
+        
+        if (temp[iloscStudentow-1] == NULL)
+        {
+                perror("malloc failed");
+                EXIT_FAILURE;
+        }
         
         for (int i = 0; i < 3; i++)
         {
                 temp[iloscStudentow-1][i] = malloc(sizeof(char) * 21);
+                
+                if (temp[iloscStudentow-1][i] == NULL)
+                {
+                        perror("malloc failed");
+                        EXIT_FAILURE;
+                }
         }
 
         return temp;
