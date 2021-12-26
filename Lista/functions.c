@@ -15,30 +15,30 @@ int iloscStudentow = 0;
 //MARK: Tworzenie tabeli (jeśli wcześniej nie było)
 char ***tabela(char ***students)
 {
-        students = malloc(sizeof(char**) * 1);
+        students = calloc(1, sizeof(char**));
         
         if (students == NULL)
         {
                 perror("malloc failed");
-                EXIT_FAILURE;
+                exit(-1);
         }
         
-        students[0] = malloc(sizeof(char*) * 3);
+        students[0] = calloc(3, sizeof(char*));
         
         if (students[0] == NULL)
         {
                 perror("malloc failed");
-                EXIT_FAILURE;
+                exit(-1);
         }
         
         for (int y = 0; y < 3; y++)
         {
-                students[0][y] = malloc(sizeof(char) * 21);
+                students[0][y] = calloc(21, sizeof(char));
                 
                 if (students[0][y] == NULL)
                 {
                         perror("malloc failed");
-                        EXIT_FAILURE;
+                        exit(-1);
                 }
         }
         return students;
@@ -206,25 +206,25 @@ char ***tymczasowa_tabela(char ***students)
         if (temp == NULL)
         {
                 perror("malloc failed");
-                EXIT_FAILURE;
+                exit(-1);
         }
         
-        temp[iloscStudentow-1] = malloc(sizeof(**temp) * 3);
+        temp[iloscStudentow-1] = calloc(3, sizeof(**temp));
         
         if (temp[iloscStudentow-1] == NULL)
         {
                 perror("malloc failed");
-                EXIT_FAILURE;
+                exit(-1);
         }
         
         for (int i = 0; i < 3; i++)
         {
-                temp[iloscStudentow-1][i] = malloc(sizeof(char) * 21);
+                temp[iloscStudentow-1][i] = calloc(21, sizeof(char));
                 
                 if (temp[iloscStudentow-1][i] == NULL)
                 {
                         perror("malloc failed");
-                        EXIT_FAILURE;
+                        exit(-1);
                 }
         }
 
