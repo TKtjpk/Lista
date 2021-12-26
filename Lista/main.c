@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "functions.h"
+//#include <gtk/gtk.h>
 
 char ***tabela(char ***students);
 
