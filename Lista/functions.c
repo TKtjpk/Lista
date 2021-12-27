@@ -13,14 +13,13 @@
 int iloscStudentow = 0;
 
 //MARK: Tworzenie tabeli (jeśli wcześniej nie było)
-char ***tabela(char ***students)
+char ***pusta_tabela(char ***students)
 {
         students = calloc(1, sizeof(char**));
         
         if (students == NULL)
         {
                 perror("malloc failed");
-                
                 exit(-1);
         }
         
@@ -29,7 +28,6 @@ char ***tabela(char ***students)
         if (students[0] == NULL)
         {
                 perror("malloc failed");
-                
                 exit(-1);
         }
         
@@ -40,7 +38,6 @@ char ***tabela(char ***students)
                 if (students[0][y] == NULL)
                 {
                         perror("malloc failed");
-                        
                         exit(-1);
                 }
         }
@@ -48,16 +45,14 @@ char ***tabela(char ***students)
 }
 
 //MARK: Usuwanie z tabeli
-char ***usun(char ***students)
+char ***usun_studenta(char ***students)
 {
         if (iloscStudentow > 0)
         {
                 int index, pozycja = -1;
-                
                 drukuj(students);
                 
                 printf("Podaj index do usuniecia: ");
-                
                 scanf(" %d", &index);
                 
                 for (int x = 0; x < iloscStudentow; x++)
@@ -65,20 +60,16 @@ char ***usun(char ***students)
                         if (atoi(students[x][0]) == index)
                         {
                                 pozycja = x;
-                                
                                 students = usun_element(students, pozycja);
-                                
                                 char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
                                 
                                 if (temp == NULL)
                                 {
                                         perror("malloc failed");
-                                        
-                                        EXIT_FAILURE;
+                                        exit(-1);
                                 }
                                 
                                 students = temp;
-                                
                                 break;
                         }
                 }
@@ -99,7 +90,6 @@ void drukuj(char ***students)
                 for (int x = 0; x < iloscStudentow; x++)
                 {
                         printf("%3s     %s     %s", students[x][0] , students[x][2], students[x][1]);
-                        
                         printf("\n................................................................\n");
                 }
         }
@@ -118,7 +108,7 @@ char ***usun_element(char ***students, int index)
                         strcpy(students[i][x], students[i+1][x]);
                 }
         }
-
+        
         iloscStudentow--;
         
         if (iloscStudentow > 0) {
@@ -133,23 +123,20 @@ char ***usun_element(char ***students, int index)
 //MARK: Dodaj na początku
 char ***dodaj_na_poczatku(char ***students)
 {
-                char ***temp;
-                
-                iloscStudentow++;
-                
-                temp = tymczasowa_tabela(students);
-                
-                for (int x = iloscStudentow - 1; x > 0; x--)
+        char ***temp;
+        iloscStudentow++;
+        temp = tymczasowa_tabela(students);
+        
+        for (int x = iloscStudentow - 1; x > 0; x--)
+        {
+                for (int i = 0; i < 3; i ++)
                 {
-                        for (int i = 0; i < 3; i ++)
-                        {
-                                strcpy(temp[x][i],temp[x-1][i]);
-                        }
+                        strcpy(temp[x][i],temp[x-1][i]);
                 }
-                
-                students = temp;
-                
-                dodajStudenta(students, 0);
+        }
+        
+        students = temp;
+        dodajStudenta(students, 0);
         
         return students;
 }
@@ -157,26 +144,19 @@ char ***dodaj_na_poczatku(char ***students)
 //MARK: Dodaj na końcu
 char ***dodaj_na_koncu(char ***students)
 {
-                iloscStudentow++;
-                
-                char ***temp = tymczasowa_tabela(students);
-                
-                students = temp;
-        
-                dodajStudenta(students, iloscStudentow-1);
-        
+        iloscStudentow++;
+        char ***temp = tymczasowa_tabela(students);
+        students = temp;
+        dodajStudenta(students, iloscStudentow-1);
         return students;
 }
 
 //MARK: Dodawanie do tabeli pustej
 char ***dodaj_do_pustej_listy(char ***students)
 {
-        students = tabela(students);
-        
+        students = pusta_tabela(students);
         dodajStudenta(students, 0);
-        
         iloscStudentow++;
-        
         return students;
 }
 
@@ -184,7 +164,6 @@ char ***dodaj_do_pustej_listy(char ***students)
 void dodajStudenta(char ***students, int pozycja)
 {
         char id[20], imie[20], nazwisko[20];
-        
         int i;
         
         printf("Podaj id (akceptuje tylko cyfry): ");
@@ -212,7 +191,6 @@ char ***tymczasowa_tabela(char ***students)
         if (temp == NULL)
         {
                 perror("malloc failed");
-                
                 exit(-1);
         }
         
@@ -221,7 +199,6 @@ char ***tymczasowa_tabela(char ***students)
         if (temp[iloscStudentow-1] == NULL)
         {
                 perror("malloc failed");
-                
                 exit(-1);
         }
         
@@ -232,11 +209,10 @@ char ***tymczasowa_tabela(char ***students)
                 if (temp[iloscStudentow-1][i] == NULL)
                 {
                         perror("malloc failed");
-                        
                         exit(-1);
                 }
         }
-
+        
         return temp;
 }
 
@@ -244,7 +220,6 @@ char ***tymczasowa_tabela(char ***students)
 void sortuj(char ***students, int metoda)
 {
         int znacznik;
-        
         char *zamiennik;
         
         for (int x = 0; x < iloscStudentow - 1; x++)
@@ -258,9 +233,7 @@ void sortuj(char ***students, int metoda)
                                 for (int i = 0; i < 3; i++)
                                 {
                                         zamiennik = students[y][i];
-                                        
                                         students[y][i] = students[y + 1][i];
-                                        
                                         students[y + 1][i] = zamiennik;
                                 }
                                 znacznik = 1;
@@ -271,7 +244,7 @@ void sortuj(char ***students, int metoda)
 }
 
 //MARK: Zwalnianie tabeli
-void zwolnij(char ***students)
+void zwolnij_pamiec(char ***students)
 {
         for (int z = 0; z < iloscStudentow; z++)
         {
@@ -292,17 +265,15 @@ int sprawdz_id(void)
         do
         {
                 ch = getchar();
-                
                 calosc++;
                 
                 if (ch >= 48 && ch <= 57)
                 {
                         i = i * 10 + (ch - 48);
-                        
                         cyfry++;
                 }
         } while (ch != 10 && ch != 13);
-
+        
         if (calosc == cyfry + 1)
         {
                 return i;
@@ -310,7 +281,6 @@ int sprawdz_id(void)
         else
         {
                 printf("\nPodaj id (akceptuje tylko cyfry): ");
-                
                 return sprawdz_id();
         }
 }

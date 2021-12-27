@@ -11,7 +11,7 @@
 #include "functions.h"
 //#include <gtk/gtk.h>
 
-char ***tabela(char ***students);
+char ***pusta_tabela(char ***students);
 
 char menu1[] = "(a) - dodaj element(y)  |  (d) - kasuj element  |  (p) - wyswietl liste  |  (x) - zamknij program\n";
 char menu2[] = "(f) - poczatek listy  |  (e) - koniec listy  |  (a) - sortuj alfabetycznie  |  (n) - sortuj wg ID\n";
@@ -59,13 +59,13 @@ int main(int argc, const char * argv[])
                                 }
                                 break;
                         case 'd':
-                                lista = usun(lista);
+                                lista = usun_studenta(lista);
                                 break;
                         case 'p':
                                 drukuj(lista);
                                 break;
                         case 'x':
-                                zwolnij(lista);
+                                zwolnij_pamiec(lista);
                                 printf("Koniec programu\n");
                                 return 0;
                         default:
