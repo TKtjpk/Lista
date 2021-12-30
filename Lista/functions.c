@@ -61,7 +61,7 @@ char ***usun_studenta(char ***students)
                         {
                                 pozycja = x;
                                 students = usun_element(students, pozycja);
-                                char ***temp = iloscStudentow ==0 ? students : realloc(students, sizeof(***temp) * iloscStudentow);
+                                char ***temp = iloscStudentow == 0 ? students : realloc(students, sizeof(students) * iloscStudentow);
                                 
                                 if (temp == NULL)
                                 {
@@ -117,6 +117,7 @@ char ***usun_element(char ***students, int index)
                 }
                 free(students[iloscStudentow]);
         }
+        
         return students;
 }
 
